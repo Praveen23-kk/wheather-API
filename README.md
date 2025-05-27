@@ -5,11 +5,11 @@
 *A Django-based API that fetches and serves real-time weather data.*  
 Perfect for integration with other apps or as a standalone weather service.
 
-![GitHub repo size](https://img.shields.io/github/repo-size/https://github.com/Praveen23-kk/weather-api?style=flat-square)
-![GitHub stars](https://img.shields.io/github/stars/your-username/weather-api?style=flat-square)
-![GitHub forks](https://img.shields.io/github/forks/your-username/weather-api?style=flat-square)
-![GitHub commit activity](https://img.shields.io/github/commit-activity/m/your-username/weather-api?style=flat-square)
-![GitHub license](https://img.shields.io/github/license/your-username/weather-api?style=flat-square)
+![GitHub repo size](https://img.shields.io/github/repo-size/https:/Praveen23-kk/weather-api?style=flat-square)
+![GitHub stars](https://img.shields.io/github/stars/Praveen23-kk/weather-api?style=flat-square)
+![GitHub forks](https://img.shields.io/github/forks/Praveen23-kk/weather-api?style=flat-square)
+![GitHub commit activity](https://img.shields.io/github/commit-activity/m/Praveen23-kk/weather-api?style=flat-square)
+![GitHub license](https://img.shields.io/github/license/Praveen23-kk/weather-api?style=flat-square)
 
 </div>
 
