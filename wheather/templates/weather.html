@@ -1,0 +1,193 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather App</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1e90ff, #70a1ff);
+            color: #333;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        h1 {
+            color: white;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        
+        .search-box {
+            display: flex;
+            max-width: 500px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 30px;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .search-box input {
+            flex: 1;
+            padding: 12px 20px;
+            border: none;
+            outline: none;
+            font-size: 16px;
+        }
+        
+        .search-box button {
+            background: #ff9f43;
+            border: none;
+            color: white;
+            padding: 0 20px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        
+        .search-box button:hover {
+            background: #ffa953;
+        }
+        
+        .weather-container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        @media screen and (min-width: 768px) {
+            .weather-container {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .weather-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .current-weather {
+            text-align: center;
+        }
+        
+        .location-info h2 {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .date {
+            color: #666;
+            margin-bottom: 2rem;
+        }
+        
+        .weather-icon {
+            margin: 1rem 0;
+        }
+        
+        .weather-info {
+            margin: 1.5rem 0;
+        }
+        
+        .temp {
+            font-size: 3rem;
+            font-weight: bold;
+            margin: 1rem 0;
+        }
+        
+        .weather-details {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #eee;
+        }
+        
+        .detail {
+            text-align: center;
+        }
+        
+        .detail p:first-child {
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+        }
+        
+        .no-data {
+            text-align: center;
+            padding: 2rem;
+            color: #666;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 3rem;
+            color: white;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Weather App</h1>
+            <form method="POST">
+                {% csrf_token %}
+                <div class="search-box">
+                    <input type="text" name="city" placeholder="Enter city name..." required>
+                    <button type="submit">Search</button>
+                </div>
+            </form>
+        </header>
+
+        <div class="weather-container">
+            {% if country_code %}
+            <div class="weather-card current-weather">
+                <div class="location-info">
+                    <h2>{{ city|default:"City" }}</h2>
+                    <p class="date">{{ country_code }}</p>
+                </div>
+                <div class="weather-info">
+                    <p class="temp">{{ temp }}°C</p>
+                    <p>Coordinates: {{ coordinate }}</p>
+                </div>
+                <div class="weather-details">
+                    <div class="detail">
+                        <p>Humidity</p>
+                        <p>{{ humidity }}%</p>
+                    </div>
+                </div>
+            </div>
+            {% else %}
+            <div class="weather-card no-data">
+                <p>Enter a city name to get weather information</p>
+            </div>
+            {% endif %}
+        </div>
+
+        <footer>
+            <p>Weather App &copy; 2025 | Powered by OpenWeatherMap API</p>
+        </footer>
+    </div>
+</body>
+</html>
