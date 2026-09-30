@@ -1,21 +1,41 @@
-from django.shortcuts import render, HttpResponse
-import json
+from django.shortcuts import render
+import os
 import requests
-# Create your views here.
+
+API_KEY = os.environ.get("OPENWEATHER_API_KEY", "")
+
 
 def wheather(request):
+    data = {}
     if request.method == 'POST':
-        city = request.POST['city']
-        source = f"http://api.openweathermap.org/data/2.5/weather?q={city}&units=imperial&appid=6657d9a4c8c148e5133e6903a993b7a8"
-        list_of_data = requests.get(source).json()
-        
-        data = {
-            "city": city,
-            "country_code": str(list_of_data['sys']['country']),
-            "coordinate": str(list_of_data['coord']['lon']) + ', ' + str(list_of_data['coord']['lat']),
-            "temp": round((list_of_data['main']['temp'] - 32) * 5.0/9.0, 2),
-            "humidity": str(list_of_data['main']['humidity'])  # Fixed the typo here
-        }
-    else:
-        data = {}
+        city = request.POST.get('city', '').strip()
+        data["query"] = city
+        try:
+            res = requests.get(
+                "https://api.openweathermap.org/data/2.5/weather",
+                params={"q": city, "units": "metric", "appid": API_KEY},
+                timeout=8,
+            )
+            d = res.json()
+            if res.status_code != 200:
+                data["error"] = str(d.get("message", "City not found")).capitalize()
+            else:
+                w = d["weather"][0]
+                data.update({
+                    "city": d.get("name", city),
+                    "country_code": d["sys"].get("country", ""),
+                    "coordinate": f"{d['coord']['lat']:.2f}, {d['coord']['lon']:.2f}",
+                    "temp": round(d["main"]["temp"]),
+                    "feels_like": round(d["main"]["feels_like"]),
+                    "temp_min": round(d["main"]["temp_min"]),
+                    "temp_max": round(d["main"]["temp_max"]),
+                    "humidity": d["main"]["humidity"],
+                    "pressure": d["main"]["pressure"],
+                    "wind": round(d["wind"]["speed"] * 3.6),
+                    "description": w["description"],
+                    "main": w["main"].lower(),
+                    "icon": w["icon"],
+                })
+        except requests.RequestException:
+            data["error"] = "Network error. Please try again."
     return render(request, 'weather.html', data)
