@@ -17,7 +17,9 @@ def wheather(request):
                 timeout=8,
             )
             d = res.json()
-            if res.status_code != 200:
+            if res.status_code == 401:
+                data["error"] = "API key is invalid or not active yet (new keys can take up to 2 hours)."
+            elif res.status_code != 200:
                 data["error"] = str(d.get("message", "City not found")).capitalize()
             else:
                 w = d["weather"][0]
