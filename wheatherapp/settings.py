@@ -15,6 +15,15 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+# Load KEY=VALUE pairs from a local .env file (not committed) into the environment
+import os
+_env = BASE_DIR / '.env'
+if _env.exists():
+    for _line in _env.read_text().splitlines():
+        if '=' in _line and not _line.lstrip().startswith('#'):
+            _k, _v = _line.split('=', 1)
+            os.environ.setdefault(_k.strip(), _v.strip())
+
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/

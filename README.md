@@ -47,9 +47,8 @@ git clone https://github.com/Praveen23-kk/Wheather-API.git
 cd Wheather-API
 pip install -r requirements.txt
 
-# get a free key at https://openweathermap.org/api
-export OPENWEATHER_API_KEY=your_key_here        # macOS/Linux
-# $env:OPENWEATHER_API_KEY="your_key_here"     # Windows PowerShell
+# get a free key at https://openweathermap.org/api, then create a .env file:
+echo OPENWEATHER_API_KEY=your_key_here > .env
 
 python manage.py runserver
 ```
